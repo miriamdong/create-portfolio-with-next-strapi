@@ -1,27 +1,25 @@
-/* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable react/jsx-filename-extension */
 import Image from 'next/image';
 import Link from 'next/link';
 import Layout from '../components/Layout';
 import fetchFromCMS from '../lib/service';
 
-export default function Home({ portfolioItems }) {
+export default function Home({ ProjectItems }) {
   return (
     <Layout>
       <div className="entries">
         <div className="row justify-content-start  ">
-          {portfolioItems.map((portfolio) => (
+          {ProjectItems.map((project) => (
             <div className="col-md-6">
               <div className="entry mb-3">
-                <Link as={`/portfolio/${portfolio.slug}`} href="/portfolio/[id]">
+                <Link as={`/project/${project.slug}`} href="/project/[id]">
                   <div className="main-image">
                     <Image
-                      src={portfolio.image.name}
+                      src={project.image.name}
                       width={600}
                       height={400}
-                      alt={portfolio.Headline}
+                      alt={project.Title}
                     />
-                    <h1>{portfolio.Headline}</h1>
+                    <h1>{project.Title}</h1>
                   </div>
                 </Link>
               </div>
@@ -34,10 +32,11 @@ export default function Home({ portfolioItems }) {
 }
 
 export async function getStaticProps() {
-  const portfolioItems = await fetchFromCMS('portfolios');
-  console.log(portfolioItems);
+  const ProjectItems = await fetchFromCMS('projects');
+  // eslint-disable-next-line no-console
+  console.log(ProjectItems);
   return {
-    props: { portfolioItems },
+    props: { ProjectItems },
     revalidate: 1,
   };
 }

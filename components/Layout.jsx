@@ -8,5 +8,5 @@ const Layout = ({ children }) => (
       {children}
     </div>
   </div>
-)
+);
 export default Layout;

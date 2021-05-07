@@ -5,16 +5,16 @@ import Image from 'next/image';
 import Layout from '../../components/Layout';
 import fetchFromCMS from '../../lib/service';
 
-const PortfolioItem = ({ portfolio }) => {
+const ProjectItem = ({ project }) => {
   return (
     <Layout>
       <div className="row">
-        <div className="portfolio-image text-center mb-4">
+        <div className="project-image text-center mb-4">
           <div className="col-md-12">
-            {portfolio.image
+            {project.image
             && (
             <Image
-              src={portfolio.image.name}
+              src={project.image.name}
               width={1000}
               height={500}
             />
@@ -23,12 +23,12 @@ const PortfolioItem = ({ portfolio }) => {
         </div>
       </div>
       <div className="row">
-        <div className="portfolio-content">
+        <div className="project-content">
           <div className="col-md-12">
-            <div className="portfolio-headline text-center m-2">
-              <h1>{portfolio.Headline}</h1>
+            <div className="project-headline text-center m-2">
+              <h1>{project.Title}</h1>
             </div>
-            <div dangerouslySetInnerHTML={{ __html: portfolio.content }} />
+            <div dangerouslySetInnerHTML={{ __html: project.content }} />
           </div>
         </div>
       </div>
@@ -37,12 +37,12 @@ const PortfolioItem = ({ portfolio }) => {
 };
 
 export async function getStaticPaths() {
-  const portfolios = await fetchFromCMS('portfolios');
+  const projects = await fetchFromCMS('projects');
 
   return {
-    paths: portfolios.map((portfolio) => ({
+    paths: projects.map((project) => ({
       params: {
-        slug: portfolio.slug,
+        slug: project.slug,
       },
     })),
     fallback: false,
@@ -50,11 +50,11 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const portfolio = await fetchFromCMS(`portfolios?slug=${params.slug}`);
+  const project = await fetchFromCMS(`projects?slug=${params.slug}`);
 
   return {
-    props: { portfolio: portfolio[0] },
+    props: { project: project[0] },
     revalidate: 1,
   };
 }
-export default PortfolioItem;
+export default ProjectItem;
